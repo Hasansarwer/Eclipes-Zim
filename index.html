@@ -18,7 +18,8 @@ function sun(r){
 // See Docs under Frame for FIT, FILL, FULL, and TAG
 new Frame(FIT, 1024, 768, light, dark, ready);
 function ready() {
-    var time =15;
+    var earthTime =30;
+    var moonTime = earthTime/11;
     var sunRadius = 90;
     var earthRadius = 30;
     var moonRadius = 15;
@@ -39,7 +40,7 @@ function ready() {
 				props:{rotation:360},
 				ease:"linear",
 				loop:true,
-				time:time,
+				time: moonTime,
 				timeCheck:false
 			});
     earthSystem.reg(0, earthOrbitRadius)
@@ -48,7 +49,7 @@ function ready() {
 				props:{rotation:360},
 				ease:"linear",
 				loop:true,
-				time:time,
+				time: earthTime,
 				timeCheck:false
 			});    
 } // end ready
