@@ -2,78 +2,55 @@
 <html>
 <head>
 <meta charset="utf-8" />
-<title>Asteroid Boom</title>
+<title>Solar Eclipes using ZIM by Hasan</title>
 
 <!-- zimjs.com - JavaScript Canvas Framework -->
 <script type=module>
 
 import zim from "https://zimjs.org/cdn/015/zim";
 
-var assets = ["sun2.png"];
-var path = "assets/";
-const er = 30;
-const mr = 10;
-var et = 0;
-var mt = 0;
-const ev =1;
-const em = .1;
-
-function cosTheta(degrees) {
-    var radians = Math.PI*degrees/180;
-    return Math.cos(radians);
-}
-
-function sinTheta(degrees) {
-    var radians = Math.PI*degrees/180;
-    return Math.sin(radians);
-}
-
-const earth = {
-    x: er*cosTheta(et),
-    y: er*sinTheta(et),
-    r: 30,
-    color: blue
-}
-
-const moon = {
-    x: earth.x + mr*cosTheta(mt),
-    y: earth.y + mr*sinTheta(mt),
-    r: 10,
-    color: gray
-}
-
-function drawCircle(obj){
-    new Circle(obj.r, obj.color)
-    .pos(obj.x, obj.y);
-}
-
-function rpos(t,v){
-    t +=v;
-    if(t>= 360){
-        return t-360; 
-    }else{
-        return t;
-    }
+function sun(r){
+    const outCircle = new Circle(r, red).center();
+    outCircle.color = new RadialColor([yellow, light], [0, 1], 0, 0, 2*r/3, 0, 0, r);
+    const sun2 = new Circle(2*r/3,red,yellow).center();
 }
 
 // See Docs under Frame for FIT, FILL, FULL, and TAG
-new Frame(FIT, 1024, 768, light, dark, ready, assets, path, new Waiter());
+new Frame(FIT, 1024, 768, light, dark, ready);
 function ready() {
-
-    new Pic("sun2.png").sca(2).center();
-    // new Circle(20, red).addTo().animate({
-    //     time: 3,
-    //     loop: true,
-    //     ease: 'linear'
-    // })
-    //     .center()
-    //     .drag();
-    et = rpos(et, ev);
-    drawCircle(earth);
-    mt = rpos(mt, mv);
-    drawCircle(moon);
-    
-        
+    var time =15;
+    var sunRadius = 90;
+    var earthRadius = 30;
+    var moonRadius = 15;
+    var earthOrbitRadius = 300;
+    var moonOrbitRadius = 60;
+    sun(sunRadius);
+    const earthOrbit = new Circle(earthOrbitRadius, clear, white).center();
+    const earthSystem = new Container().center();
+    const moonOrbit = new Circle(moonOrbitRadius, clear, white);
+    moonOrbit.center(earthSystem);
+    const earth = new Circle(earthRadius, blue);
+    earth.center(earthSystem);
+    const moon = new Circle(moonRadius, pink);
+    moon.center(earthSystem);
+    moon.reg(0,moonOrbitRadius)
+    .loc(moonOrbit, null)
+    .animate({
+				props:{rotation:360},
+				ease:"linear",
+				loop:true,
+				time:time,
+				timeCheck:false
+			});
+    earthSystem.reg(0, earthOrbitRadius)
+    .loc(earthOrbit, null)
+    .animate({
+				props:{rotation:360},
+				ease:"linear",
+				loop:true,
+				time:time,
+				timeCheck:false
+			});    
 } // end ready
 
 </script>
